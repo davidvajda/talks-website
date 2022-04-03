@@ -24,10 +24,11 @@ function App() {
 
   // ------ LOAD PAGE ------
   useEffect(() => {
-    // setSio(io("http://127.0.0.1:5000"));
-    setSio(io("http://192.168.1.28:5000"));
-    
-  }, []);
+    const newSocket = io("http://127.0.0.1:5000")
+    // const newSocket = io("http://192.168.1.28:5000")
+    setSio(newSocket);
+    return () => newSocket.close()
+  }, [setSio]);
 
   return (
     <div className="App">

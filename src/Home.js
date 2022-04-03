@@ -15,10 +15,12 @@ function Home({ sio, setScreen }) {
 
   // ------ SOCKETIO FUNCTIONS ------
   sio.on("chat_connected", () => {
+    console.log("[CHAT CONNECTED]")
     setScreen("chat");
   });
 
   sio.on("enqueued", () => {
+    console.log("[ENQUEUED]")
     setScreen("queue");
   });
 
@@ -30,10 +32,11 @@ function Home({ sio, setScreen }) {
     }
   };
 
+  // ------ JSX ------
   return (
     <div>
       <div>
-        <input type="text" onChange={(e) => setName(e.target.value)} />
+        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
         <div>
           <button onClick={() => talkeeJoin()}>Join as a Talkee</button>
         </div>

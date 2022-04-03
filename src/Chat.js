@@ -1,30 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Chat({ sio, setScreen }) {
   const [text, setText] = useState("");
-  const [chatMessages, setChatMessages] = useState(["Say hi to each other!"]);
+  const [chatMessages, setChatMessages] = useState([]);
+
+  // TODO:
+  // MULTIPLE RECEIVED MESSAGES
 
   // ------ SOCKETIO EVENTS ------
-  sio.on("message", (data) => {
-    setChatMessages((prevState) => [data.message, ...prevState]);
-  });
+  useEffect(() => {
+    sio.on("message", (data) => {
+      console.log("[MESSAGE]", data);
 
-  sio.on("client_disconnected", () => {
-    setScreen("home");
-    alert("Other client has disconnected");
-  });
+      setChatMessages((prevState) => [
+        {
+          message: data.message,
+          key: prevState.length,
+          time: "time",
+          from: "idk",
+          viewed: true,
+        },
+        ...prevState,
+      ]);
+    });
+
+    sio.once("client_disconnected", () => {
+      setScreen("home");
+      alert("Other client has disconnected");
+    });
+  }, [sio]);
 
   // ------ ONCLICK FUNCTIONS ------
   const sendMessage = () => {
-    sio.emit("message", { message: text });
-    setChatMessages(prevState => [text, ...prevState])
-    setText("")
+    sio.emit("message", {
+      message: text,
+    });
+    setChatMessages((prevState) => [
+      {
+        message: text,
+        key: prevState.length,
+        time: "time",
+        from: "idk",
+        viewed: true,
+      },
+      ...prevState,
+    ]);
+    setText("");
   };
 
   // ------ RENDER FUNCTIONS ------
   const renderMessages = () => {
-    return chatMessages.map((message) => {
-      return <li>{message}</li>;
+    return chatMessages.map((chatMessage) => {
+      return <li>{chatMessage.message}</li>;
     });
   };
 
