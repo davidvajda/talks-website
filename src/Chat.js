@@ -4,23 +4,15 @@ function Chat({ sio, setScreen }) {
   const [text, setText] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
 
-  // TODO:
-  // MULTIPLE RECEIVED MESSAGES
-
   // ------ SOCKETIO EVENTS ------
   useEffect(() => {
     sio.on("message", (data) => {
-      console.log("[MESSAGE]", data);
+      data.key = chatMessages.length
+
+      console.log(data) // DEBUG CODE
 
       setChatMessages((prevState) => [
-        {
-          message: data.message,
-          key: prevState.length,
-          time: "time",
-          from: "idk",
-          viewed: true,
-        },
-        ...prevState,
+        data, ...prevState,
       ]);
     });
 
@@ -71,6 +63,8 @@ function Chat({ sio, setScreen }) {
       <div>
         <ul>{renderMessages()}</ul>
       </div>
+      {JSON.stringify(chatMessages)}
+      {chatMessages.length}
     </div>
   );
 }
