@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./Chat.css"
 
 function Chat({ sio, setScreen }) {
   const [text, setText] = useState("");
@@ -7,13 +8,14 @@ function Chat({ sio, setScreen }) {
   // ------ SOCKETIO EVENTS ------
   useEffect(() => {
     sio.on("message", (data) => {
-      data.key = chatMessages.length
-
       console.log(data) // DEBUG CODE
 
-      setChatMessages((prevState) => [
-        data, ...prevState,
-      ]);
+      setChatMessages((prevState) => {
+          data.key = prevState.length;
+        return [
+          data, ...prevState,
+        ]
+      });
     });
 
     sio.once("client_disconnected", () => {
@@ -24,8 +26,10 @@ function Chat({ sio, setScreen }) {
 
   // ------ ONCLICK FUNCTIONS ------
   const sendMessage = () => {
+    const time = new Date();
     sio.emit("message", {
       message: text,
+      time: time.getTime(),
     });
     setChatMessages((prevState) => [
       {
