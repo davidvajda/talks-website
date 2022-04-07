@@ -1,39 +1,50 @@
 import React, { useState, useEffect } from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
-
-import Toolbar from "@mui/material/Toolbar";
 import Paper from "@mui/material/Paper";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="#">
-        Talks
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { createStyles, makeStyles, Theme } from "@mui/styles";
+import { TextInput } from "./TextInput.js";
+import { MessageLeft, MessageRight } from "./Message";
 
 const theme = createTheme();
+
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    paper: {
+      width: "80vw",
+      height: "80vh",
+      maxWidth: "500px",
+      maxHeight: "700px",
+      display: "flex",
+      alignItems: "center",
+      flexDirection: "column",
+      position: "relative",
+    },
+    paper2: {
+      width: "80vw",
+      maxWidth: "500px",
+      display: "flex",
+      alignItems: "center",
+      flexDirection: "column",
+      position: "relative",
+    },
+    container: {
+      width: "100vw",
+      height: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    messagesBody: {
+      width: "calc( 100% - 20px )",
+      margin: 10,
+      overflowY: "scroll",
+      height: "calc( 100% - 80px )",
+    },
+  })
+);
 
 function Chat({ sio, setScreen }) {
   const [text, setText] = useState("");
@@ -83,50 +94,44 @@ function Chat({ sio, setScreen }) {
     });
   };
 
+  const classes = useStyles();
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AppBar
-        position="absolute"
-        color="default"
-        elevation={0}
-        sx={{
-          position: "relative",
-          borderBottom: (t) => `1px solid ${t.palette.divider}`,
-        }}
-      >
-        <Toolbar>
-          <Typography variant="h5" color="inherit" noWrap>
-            Company name
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Container component="main" maxWidth="sm" sx={{ mb: 4, backgroundSize: "cover",
-            backgroundPosition: "center"}} >
-        <Paper
-          variant="outlined"
-          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
-        >
-          <Toolbar>
-            <Typography variant="h6" color="inherit" noWrap>
-              ANOTHERS CLIENT NAME
-            </Typography>
-          </Toolbar>
-          <p>bitch</p>
-          <p>bitch</p>
-          <p>bitch</p>
-          <p>bitch</p>
-          <p>bitch</p>
-          <TextField
-              margin="normal"
-              fullWidth
-              id="name"
-              name="text"
-              autoFocus
-            />        </Paper>
-        <Copyright />
-      </Container>
-    </ThemeProvider>
+    <div className={classes.container}>
+      bitch
+      <Paper className={classes.paper} zDepth={2}>
+        <Paper id="style-1" className={classes.messagesBody}>
+          <MessageLeft
+            message="あめんぼあかいなあいうえお"
+            timestamp="MM/DD 00:00"
+            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
+            displayName=""
+            avatarDisp={true}
+          />
+          <MessageLeft
+            message="xxxxxhttps://yahoo.co.jp xxxxxxxxxあめんぼあかいなあいうえおあいうえおかきくけこさぼあかいなあいうえおあいうえおかきくけこさぼあかいなあいうえおあいうえおかきくけこさいすせそ"
+            timestamp="MM/DD 00:00"
+            photoURL=""
+            displayName="テスト"
+            avatarDisp={false}
+          />
+          <MessageRight
+            message="messageRあめんぼあかいなあいうえおあめんぼあかいなあいうえおあめんぼあかいなあいうえお"
+            timestamp="MM/DD 00:00"
+            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
+            displayName="まさりぶ"
+            avatarDisp={true}
+          />
+          <MessageRight
+            message="messageRあめんぼあかいなあいうえおあめんぼあかいなあいうえお"
+            timestamp="MM/DD 00:00"
+            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
+            displayName="まさりぶ"
+            avatarDisp={false}
+          />
+        </Paper>
+        <TextInput />
+      </Paper>
+    </div>
   );
 }
 

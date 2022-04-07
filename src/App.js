@@ -8,7 +8,7 @@ const { io } = require("socket.io-client");
 
 function App() {
   // ------ STATES ------
-  const [screen, setScreen] = useState("home");
+  const [screen, setScreen] = useState("chat");
   const [sio, setSio] = useState(null);
 
   // ------ RENDER FUNCTIONS ------
