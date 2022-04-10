@@ -1,63 +1,42 @@
 import React, { useState, useEffect } from "react";
-import Paper from "@mui/material/Paper";
-import Link from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
 
-import { createStyles, makeStyles, Theme } from "@mui/styles";
 import { TextInput } from "./TextInput.js";
 import { MessageLeft, MessageRight } from "./Message";
 
-const theme = createTheme();
-
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    paper: {
-      width: "80vw",
-      height: "80vh",
-      maxWidth: "500px",
-      maxHeight: "700px",
-      display: "flex",
-      alignItems: "center",
-      flexDirection: "column",
-      position: "relative",
-    },
-    paper2: {
-      width: "80vw",
-      maxWidth: "500px",
-      display: "flex",
-      alignItems: "center",
-      flexDirection: "column",
-      position: "relative",
-    },
-    container: {
-      width: "100vw",
-      height: "100vh",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    messagesBody: {
-      width: "calc( 100% - 20px )",
-      margin: 10,
-      overflowY: "scroll",
-      height: "calc( 100% - 80px )",
-    },
-  })
-);
+// ------ STYLES ------
+const styles = {
+  outContainer: {
+    minHeight: "95vh",
+  },
+  inContainer: { minHeight: "86vh" },
+  textInput: {},
+};
 
 function Chat({ sio, setScreen }) {
-  const [text, setText] = useState("");
+  const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
 
   // ------ SOCKETIO EVENTS ------
   useEffect(() => {
     sio.on("message", (data) => {
-      console.log(data); // DEBUG CODE
-
       setChatMessages((prevState) => {
         data.key = prevState.length;
-        return [data, ...prevState];
+        return [
+          {
+            message: data.message,
+            key: prevState.length,
+            time: "time",
+            viewed: true,
+            type: "text",
+            get component() {
+              return <MessageLeft key={this.key} message={this.message} time={this.time} />
+            },
+          },
+          ...prevState,
+        ];
       });
     });
 
@@ -69,69 +48,71 @@ function Chat({ sio, setScreen }) {
 
   // ------ ONCLICK FUNCTIONS ------
   const sendMessage = () => {
+    if (message.length < 1){
+      return null;
+    }
+
     const time = new Date();
     sio.emit("message", {
-      message: text,
+      message: message,
       time: time.getTime(),
     });
+
     setChatMessages((prevState) => [
       {
-        message: text,
+        message: message,
         key: prevState.length,
         time: "time",
-        from: "idk",
         viewed: true,
+        type: "text",
+        get component() {
+          return <MessageRight key={this.key} message={this.message} time={this.time} />;
+        },
       },
       ...prevState,
     ]);
-    setText("");
+    setMessage("");
   };
 
   // ------ RENDER FUNCTIONS ------
   const renderMessages = () => {
     return chatMessages.map((chatMessage) => {
-      return <li>{chatMessage.message}</li>;
+      return chatMessage.component;
     });
   };
 
-  const classes = useStyles();
+  // ------ JSX ------
   return (
-    <div className={classes.container}>
-      bitch
-      <Paper className={classes.paper} zDepth={2}>
-        <Paper id="style-1" className={classes.messagesBody}>
-          <MessageLeft
-            message="あめんぼあかいなあいうえお"
-            timestamp="MM/DD 00:00"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-            displayName=""
-            avatarDisp={true}
-          />
-          <MessageLeft
-            message="xxxxxhttps://yahoo.co.jp xxxxxxxxxあめんぼあかいなあいうえおあいうえおかきくけこさぼあかいなあいうえおあいうえおかきくけこさぼあかいなあいうえおあいうえおかきくけこさいすせそ"
-            timestamp="MM/DD 00:00"
-            photoURL=""
-            displayName="テスト"
-            avatarDisp={false}
-          />
-          <MessageRight
-            message="messageRあめんぼあかいなあいうえおあめんぼあかいなあいうえおあめんぼあかいなあいうえお"
-            timestamp="MM/DD 00:00"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-            displayName="まさりぶ"
-            avatarDisp={true}
-          />
-          <MessageRight
-            message="messageRあめんぼあかいなあいうえおあめんぼあかいなあいうえお"
-            timestamp="MM/DD 00:00"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-            displayName="まさりぶ"
-            avatarDisp={false}
-          />
-        </Paper>
-        <TextInput />
-      </Paper>
-    </div>
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      // alignItems="center"
+      // justifyContent="center"
+      style={{ minHeight: "100vh", minWidth: "100%" }}
+    >
+      <Container
+        maxWidth="md"
+        //alignItems="center"
+        // justifyContent="center"
+        style={styles.outContainer}
+      >
+        <Stack
+          maxWidth="md"
+          style={styles.inContainer}
+          direction="column-reverse"
+          // justifyContent="flex-start"
+          spacing={1}
+        >
+          {renderMessages()}
+        </Stack>
+        <TextInput
+          message={message}
+          setMessage={setMessage}
+          sendMessage={sendMessage}
+        />
+      </Container>
+    </Grid>
   );
 }
 

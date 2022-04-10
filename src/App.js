@@ -8,7 +8,7 @@ const { io } = require("socket.io-client");
 
 function App() {
   // ------ STATES ------
-  const [screen, setScreen] = useState("chat");
+  const [screen, setScreen] = useState("home");
   const [sio, setSio] = useState(null);
 
   // ------ RENDER FUNCTIONS ------
@@ -24,8 +24,8 @@ function App() {
 
   // ------ LOAD PAGE ------
   useEffect(() => {
-    const newSocket = io("http://127.0.0.1:5000")
-    // const newSocket = io("http://192.168.1.28:5000")
+    // const newSocket = io("http://127.0.0.1:5000")
+    const newSocket = io("http://192.168.0.103:5000")
     setSio(newSocket);
     return () => newSocket.close()
   }, [setSio]);
