@@ -23,14 +23,14 @@ function Chat({ sio, setScreen }) {
   useEffect(() => {
     sio.on("message", (data) => {
       setChatMessages((prevState) => {
-        data.key = prevState.length;
+        const messageSent = new Date(data.time);
         return [
           {
             message: data.message,
             key: prevState.length,
-            time: "time",
-            viewed: true,
-            type: "text",
+            time: `${messageSent.getHours()}:${messageSent.getMinutes()}`,
+            viewed: false,
+            type: "message",
             get component() {
               return <MessageLeft key={this.key} message={this.message} time={this.time} />
             },
@@ -52,17 +52,17 @@ function Chat({ sio, setScreen }) {
       return null;
     }
 
-    const time = new Date();
+    const messageSent = new Date();
     sio.emit("message", {
       message: message,
-      time: time.getTime(),
+      time: messageSent.getTime(),
     });
 
     setChatMessages((prevState) => [
       {
         message: message,
         key: prevState.length,
-        time: "time",
+        time: `${messageSent.getHours()}:${messageSent.getMinutes()}`,
         viewed: true,
         type: "text",
         get component() {

@@ -24,8 +24,9 @@ function App() {
 
   // ------ LOAD PAGE ------
   useEffect(() => {
-    // const newSocket = io("http://127.0.0.1:5000")
-    const newSocket = io("http://192.168.0.103:5000")
+    const newSocket = io("http://127.0.0.1:5000")
+    // const newSocket = io("http://192.168.0.103:5000")
+    
     setSio(newSocket);
     return () => newSocket.close()
   }, [setSio]);
