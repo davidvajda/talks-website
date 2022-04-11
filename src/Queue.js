@@ -1,20 +1,26 @@
 import React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
+
+// ------ Material UI ------
+import Grid from "@mui/material/Grid";
 import AppBar from "@mui/material/AppBar";
-import Container from "@mui/material/Container";
-
 import Toolbar from "@mui/material/Toolbar";
-import Paper from "@mui/material/Paper";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const theme = createTheme();
+// ------ STYLES ------
+const styles = {
+  outContainer: {
+    minHeight: "90vh",
+  },
+  grid: { minHeight: "85vh", minWidth: "100%" },
+  alertText: {padding: "2vh"}
+};
 
 function Queue() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <Grid
+      container
+    >
       <AppBar
         position="absolute"
         color="default"
@@ -25,26 +31,24 @@ function Queue() {
         }}
       >
         <Toolbar>
-          <Typography variant="h5" color="inherit" noWrap>
+          <Typography variant="h5" color="inherit" noWrap >
             You are in queue
           </Typography>
         </Toolbar>
       </AppBar>
-      <Container
-        component="main"
-        maxWidth="sm"
-        sx={{ mb: 4, justifyContent: "center"}}
-      >
-        <Paper
-          variant="outlined"
-          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, justifyContent: "center"}}
-        >
-          <Typography component="h6" >Waiting for other client</Typography>
-          <CircularProgress/>
 
-        </Paper>
-      </Container>
-    </ThemeProvider>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        style={styles.grid}
+      >
+        <Typography component="h6" style={styles.alertText} >Waiting for other client</Typography>
+        <CircularProgress />
+      </Grid>
+    </Grid>
   );
 }
 

@@ -1,5 +1,7 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
+
+// ------ React Components ------
 import Chat from "./Chat";
 import Home from "./Home";
 import Queue from "./Queue"
@@ -11,12 +13,14 @@ function App() {
   const [screen, setScreen] = useState("home");
   const [sio, setSio] = useState(null);
 
+  const [otherClient, setOtherClient] = useState({});
+
   // ------ RENDER FUNCTIONS ------
   const renderScreen = () => {
     if (screen === "home") {
-      return <Home sio={sio} setScreen={setScreen} />;
+      return <Home sio={sio} setScreen={setScreen} setOtherClient={setOtherClient} />;
     } else if (screen === "chat") {
-      return <Chat sio={sio} setScreen={setScreen} />;
+      return <Chat sio={sio} setScreen={setScreen} otherClient={otherClient} />;
     } else if (screen === "queue") {
       return <Queue />
     }
@@ -26,7 +30,7 @@ function App() {
   useEffect(() => {
     const newSocket = io("http://127.0.0.1:5000")
     // const newSocket = io("http://192.168.0.103:5000")
-    
+
     setSio(newSocket);
     return () => newSocket.close()
   }, [setSio]);

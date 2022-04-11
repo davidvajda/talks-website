@@ -31,6 +31,15 @@ const styles = {
   timeRgiht: {
     right: 20,
   },
+  alertWrapper: {
+    color: "rgba(50, 50, 50, 0.5)",
+    padding: 10,
+  },
+  alertText: {
+    width: "100%",
+    textAlign: "center",
+    padding: 5,
+  }
 };
 
 // ------ JSX ------
@@ -51,3 +60,12 @@ export const MessageRight = ({ message, time }) => {
     </div>
   );
 };
+
+export const AlertMessage = ({message, time}) => {
+  return (
+    <div style={styles.alertWrapper}>
+      <div style={styles.alertText}>{message}</div>
+      <div style={styles.alertText}>{time}</div>
+    </div>
+  )
+}

@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
+
+// ------ Material UI ------
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
+// ------ React Components
 import { TextInput } from "./TextInput.js";
-import { MessageLeft, MessageRight } from "./Message";
+import { MessageLeft, MessageRight, AlertMessage } from "./Message";
 
 // ------ STYLES ------
 const styles = {
@@ -21,9 +26,13 @@ const styles = {
     marginBottom: "1vh",
   },
   grid: { minHeight: "100vh", minWidth: "100%" },
+  toolbarText: {
+    marginLeft: 30,
+    marginRight: 30,
+  },
 };
 
-function Chat({ sio, setScreen }) {
+function Chat({ sio, setScreen, otherClient }) {
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
 
@@ -37,7 +46,6 @@ function Chat({ sio, setScreen }) {
             message: data.message,
             key: prevState.length,
             time: `${messageSent.getHours()}:${messageSent.getMinutes()}`,
-            viewed: false,
             type: "message",
             get component() {
               return (
@@ -55,8 +63,28 @@ function Chat({ sio, setScreen }) {
     });
 
     sio.once("client_disconnected", () => {
-      setScreen("home");
-      alert("Other client has disconnected");
+      // setScreen("home");
+      const messageSent = new Date();
+      setChatMessages((prevState) => {
+        return [
+          {
+            message: "Other client has left the chat",
+            key: prevState.length,
+            time: `${messageSent.getHours()}:${messageSent.getMinutes()}`,
+            type: "alert",
+            get component() {
+              return (
+                <MessageLeft
+                  key={this.key}
+                  message={this.message}
+                  time={this.time}
+                />
+              );
+            },
+          },
+          ...prevState,
+        ];
+      });
     });
   }, [sio]);
 
@@ -77,7 +105,6 @@ function Chat({ sio, setScreen }) {
         message: message,
         key: prevState.length,
         time: `${messageSent.getHours()}:${messageSent.getMinutes()}`,
-        viewed: true,
         type: "text",
         get component() {
           return (
@@ -114,8 +141,11 @@ function Chat({ sio, setScreen }) {
         }}
       >
         <Toolbar>
-          <Typography variant="h5" color="inherit" noWrap>
-            You are in queue
+          <Button variant="outlined" startIcon={<ArrowBackIosNewIcon />}>
+            Leave chat
+          </Button>
+          <Typography variant="h5" style={styles.toolbarText}>
+            You are talking to {otherClient.name}
           </Typography>
         </Toolbar>
       </AppBar>
