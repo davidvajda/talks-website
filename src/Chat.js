@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 import { TextInput } from "./TextInput.js";
 import { MessageLeft, MessageRight } from "./Message";
@@ -9,10 +12,15 @@ import { MessageLeft, MessageRight } from "./Message";
 // ------ STYLES ------
 const styles = {
   outContainer: {
-    minHeight: "95vh",
+    minHeight: "90vh",
   },
-  inContainer: { minHeight: "86vh" },
-  textInput: {},
+  inContainer: {
+    height: "78vh",
+    overflowY: "scroll",
+    marginTop: "2vh",
+    marginBottom: "1vh",
+  },
+  grid: { minHeight: "100vh", minWidth: "100%" },
 };
 
 function Chat({ sio, setScreen }) {
@@ -32,7 +40,13 @@ function Chat({ sio, setScreen }) {
             viewed: false,
             type: "message",
             get component() {
-              return <MessageLeft key={this.key} message={this.message} time={this.time} />
+              return (
+                <MessageLeft
+                  key={this.key}
+                  message={this.message}
+                  time={this.time}
+                />
+              );
             },
           },
           ...prevState,
@@ -48,7 +62,7 @@ function Chat({ sio, setScreen }) {
 
   // ------ ONCLICK FUNCTIONS ------
   const sendMessage = () => {
-    if (message.length < 1){
+    if (message.length < 1) {
       return null;
     }
 
@@ -66,7 +80,13 @@ function Chat({ sio, setScreen }) {
         viewed: true,
         type: "text",
         get component() {
-          return <MessageRight key={this.key} message={this.message} time={this.time} />;
+          return (
+            <MessageRight
+              key={this.key}
+              message={this.message}
+              time={this.time}
+            />
+          );
         },
       },
       ...prevState,
@@ -83,25 +103,28 @@ function Chat({ sio, setScreen }) {
 
   // ------ JSX ------
   return (
-    <Grid
-      container
-      spacing={0}
-      direction="column"
-      // alignItems="center"
-      // justifyContent="center"
-      style={{ minHeight: "100vh", minWidth: "100%" }}
-    >
-      <Container
-        maxWidth="md"
-        //alignItems="center"
-        // justifyContent="center"
-        style={styles.outContainer}
+    <Grid container spacing={0} direction="column" style={styles.grid}>
+      <AppBar
+        position="absolute"
+        color="default"
+        elevation={0}
+        sx={{
+          position: "relative",
+          borderBottom: (t) => `1px solid ${t.palette.divider}`,
+        }}
       >
+        <Toolbar>
+          <Typography variant="h5" color="inherit" noWrap>
+            You are in queue
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      <Container maxWidth="md" style={styles.outContainer}>
         <Stack
           maxWidth="md"
           style={styles.inContainer}
           direction="column-reverse"
-          // justifyContent="flex-start"
           spacing={1}
         >
           {renderMessages()}
