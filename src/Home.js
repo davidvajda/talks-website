@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocalStorage } from "./useLocalStorage";
 
 // ------ Material UI ------
 import Button from "@mui/material/Button";
@@ -32,6 +33,8 @@ function Home({ sio, setScreen, setOtherClient }) {
   const [nameError, setNameError] = useState(false);
   const [nameLabel, setNameLabel] = useState("Your name:");
 
+  const [sessionSid, setSessionSid] = useLocalStorage();
+
   // ------ ONCLICK FUNCTIONS ------
   const talkeeJoin = () => {
     if (name !== "") {
@@ -63,14 +66,19 @@ function Home({ sio, setScreen, setOtherClient }) {
   };
 
   // ------ SOCKETIO FUNCTIONS ------
+  sio.on("connected", (sid) => {
+    if (sessionSid) {
+      sio.emit("reconnect", sessionSid);
+    }
+    setSessionSid(sid);
+  });
+
   sio.on("chat_connected", (otherClient) => {
-    console.log("[CHAT CONNECTED]");
     setScreen("chat");
     setOtherClient(otherClient);
   });
 
   sio.on("enqueued", () => {
-    console.log("[ENQUEUED]");
     setScreen("queue");
   });
 
@@ -100,7 +108,6 @@ function Home({ sio, setScreen, setOtherClient }) {
             mx: 4,
             display: "flex",
             flexDirection: "column",
-            // alignItems: "center",
           }}
         >
           <Typography component="h1" variant="h5">

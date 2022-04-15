@@ -40,46 +40,31 @@ function Chat({ sio, setScreen, otherClient }) {
   useEffect(() => {
     sio.on("message", (data) => {
       setChatMessages((prevState) => {
-        const messageSent = new Date(data.time);
+        const messageReceived = new Date(data.time);
         return [
           {
             message: data.message,
             key: prevState.length,
-            time: `${messageSent.getHours()}:${messageSent.getMinutes()}`,
-            type: "message",
+            time: `${messageReceived.getHours()}:${messageReceived.getMinutes()}`,
+            type: data.type,
             get component() {
-              return (
-                <MessageLeft
-                  key={this.key}
-                  message={this.message}
-                  time={this.time}
-                />
-              );
-            },
-          },
-          ...prevState,
-        ];
-      });
-    });
-
-    sio.once("client_disconnected", () => {
-      // setScreen("home");
-      const messageSent = new Date();
-      setChatMessages((prevState) => {
-        return [
-          {
-            message: "Other client has left the chat",
-            key: prevState.length,
-            time: `${messageSent.getHours()}:${messageSent.getMinutes()}`,
-            type: "alert",
-            get component() {
-              return (
-                <MessageLeft
-                  key={this.key}
-                  message={this.message}
-                  time={this.time}
-                />
-              );
+              if (data.type === "message") {
+                return (
+                  <MessageLeft
+                    key={this.key}
+                    message={this.message}
+                    time={this.time}
+                  />
+                );
+              } else {
+                return (
+                  <AlertMessage
+                    key={this.key}
+                    message={this.message}
+                    time={this.time}
+                  />
+                );
+              }
             },
           },
           ...prevState,

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 // ------ React Components ------
 import Chat from "./Chat";
 import Home from "./Home";
-import Queue from "./Queue"
+import Queue from "./Queue";
 
 const { io } = require("socket.io-client");
 
@@ -14,30 +14,38 @@ function App() {
   const [sio, setSio] = useState(null);
 
   const [otherClient, setOtherClient] = useState({});
+  
 
   // ------ RENDER FUNCTIONS ------
   const renderScreen = () => {
     if (screen === "home") {
-      return <Home sio={sio} setScreen={setScreen} setOtherClient={setOtherClient} />;
+      return (
+        <Home sio={sio} setScreen={setScreen} setOtherClient={setOtherClient} />
+      );
     } else if (screen === "chat") {
       return <Chat sio={sio} setScreen={setScreen} otherClient={otherClient} />;
     } else if (screen === "queue") {
-      return <Queue />
+      return <Queue />;
     }
   };
 
   // ------ LOAD PAGE ------
   useEffect(() => {
-    const newSocket = io("http://127.0.0.1:5000")
-    // const newSocket = io("http://192.168.0.103:5000")
+    // const newSocket = io("http://127.0.0.1:5000");
+    const newSocket = io("http://192.168.1.28:5000")
 
     setSio(newSocket);
-    return () => newSocket.close()
+
+    return () => newSocket.close();
   }, [setSio]);
 
   return (
     <div className="App">
-      {sio ? <div>{renderScreen()}</div> : <div>No Connection established</div>}
+      {sio ? (
+        <div>{renderScreen()}</div>
+      ) : (
+        <div>Connecting to the server...</div>
+      )}
     </div>
   );
 }
