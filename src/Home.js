@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
 // ------ Material UI ------
@@ -20,9 +20,9 @@ function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="#">
-        Talks
+        Talks 
       </Link>
-      {new Date().getFullYear()}
+      {" " + new Date().getFullYear()}
     </Typography>
   );
 }
@@ -84,23 +84,7 @@ function Home({ sio, setScreen, setOtherClient }) {
 
   // ------ JSX ------
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
-        sx={{
-          backgroundImage: "url(https://source.unsplash.com/random)",
-          backgroundRepeat: "no-repeat",
-          backgroundColor: (t) =>
-            t.palette.mode === "light"
-              ? t.palette.grey[50]
-              : t.palette.grey[900],
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
+    <Grid container component="main" sx={{ height: "100vh", justifyContent: "center", alignItems: "center" }}>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <Box
           sx={{
@@ -111,18 +95,14 @@ function Home({ sio, setScreen, setOtherClient }) {
           }}
         >
           <Typography component="h1" variant="h5">
-            Talks
+            Welcome to Talks!
           </Typography>
           <Typography component="p">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
+            Mental health is equally, if not more important than physical
+            health. Since the beginning of pandemic it's been more difficult to
+            talk things through with other people and let the mental tension go
+            away. This website's purpose is to connect you with a random
+            stranger so you can talk and share your thoughts.
           </Typography>
           <TextField
             error={nameError}
@@ -138,18 +118,24 @@ function Home({ sio, setScreen, setOtherClient }) {
             autoFocus
           />
           <Box component="form" noValidate sx={{ mt: 1 }}>
+            <Typography variant="p">
+              If you feel like you have a lot to get off your chest then
+            </Typography>
             <Button
               onClick={() => talkeeJoin()}
               fullWidth
-              variant="contained"
+              variant="outlined"
               sx={{ mt: 3, mb: 2 }}
             >
-              Joins as a Talkee
+              Join as Talkee
             </Button>
+            <Typography variant="p">
+              If you'd like to listen to someone then
+            </Typography>
             <Button
               onClick={() => listenerJoin()}
               fullWidth
-              variant="contained"
+              variant="outlined"
               sx={{ mt: 3, mb: 2 }}
             >
               Join as a Listener

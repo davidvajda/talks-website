@@ -10,17 +10,20 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
-// ------ React Components
-import { TextInput } from "./TextInput.js";
+// ------ React Components ------
+import { TextInput } from "./TextInput";
 import { MessageLeft, MessageRight, AlertMessage } from "./Message";
+
+// ------ Functions ------
+import { getTime } from "./getTime"
 
 // ------ STYLES ------
 const styles = {
   outContainer: {
-    minHeight: "90vh",
+    minHeight: "85vh",
   },
   inContainer: {
-    height: "78vh",
+    height: "75vh",
     overflowY: "scroll",
     marginTop: "2vh",
     marginBottom: "1vh",
@@ -40,12 +43,11 @@ function Chat({ sio, setScreen, otherClient }) {
   useEffect(() => {
     sio.on("message", (data) => {
       setChatMessages((prevState) => {
-        const messageReceived = new Date(data.time);
         return [
           {
             message: data.message,
             key: prevState.length,
-            time: `${messageReceived.getHours()}:${messageReceived.getMinutes()}`,
+            time: getTime(data.time),
             type: data.type,
             get component() {
               if (data.type === "message") {
@@ -82,15 +84,15 @@ function Chat({ sio, setScreen, otherClient }) {
     const messageSent = new Date();
     sio.emit("message", {
       message: message,
-      time: messageSent.getTime(),
+      time: messageSent,
     });
 
     setChatMessages((prevState) => [
       {
         message: message,
         key: prevState.length,
-        time: `${messageSent.getHours()}:${messageSent.getMinutes()}`,
-        type: "text",
+        time: getTime(messageSent),
+        type: "message",
         get component() {
           return (
             <MessageRight
@@ -105,6 +107,11 @@ function Chat({ sio, setScreen, otherClient }) {
     ]);
     setMessage("");
   };
+
+  const leaveChat = () => {
+    sio.emit("leave_chat");
+    setScreen("home");
+  }
 
   // ------ RENDER FUNCTIONS ------
   const renderMessages = () => {
@@ -126,7 +133,7 @@ function Chat({ sio, setScreen, otherClient }) {
         }}
       >
         <Toolbar>
-          <Button variant="outlined" startIcon={<ArrowBackIosNewIcon />}>
+          <Button variant="outlined" onClick={() => leaveChat()} startIcon={<ArrowBackIosNewIcon />}>
             Leave chat
           </Button>
           <Typography variant="h5" style={styles.toolbarText}>

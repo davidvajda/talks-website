@@ -1,4 +1,3 @@
-import "./App.css";
 import React, { useState, useEffect } from "react";
 
 // ------ React Components ------
@@ -32,7 +31,7 @@ function App() {
   // ------ LOAD PAGE ------
   useEffect(() => {
     // const newSocket = io("http://127.0.0.1:5000");
-    const newSocket = io("http://192.168.1.28:5000")
+    const newSocket = io("http://192.168.1.23:5000")
 
     setSio(newSocket);
 
