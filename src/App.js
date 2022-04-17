@@ -31,7 +31,8 @@ function App() {
   // ------ LOAD PAGE ------
   useEffect(() => {
     // const newSocket = io("http://127.0.0.1:5000");
-    const newSocket = io("http://192.168.1.23:5000")
+    const newSocket = io("https://talks-server.herokuapp.com/")
+    // const newSocket = io("http://192.168.1.28:9999")
 
     setSio(newSocket);
 
