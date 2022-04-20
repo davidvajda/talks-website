@@ -36,6 +36,10 @@ function Home({ sio, setScreen, setOtherClient }) {
   const [sessionSid, setSessionSid] = useLocalStorage();
 
   // ------ ONCLICK FUNCTIONS ------
+  const checkClients = () => {
+    sio.emit("check_clients")
+  }
+
   const talkeeJoin = () => {
     if (name !== "") {
       sio.emit("talkee_join", { name: name });
@@ -139,6 +143,9 @@ function Home({ sio, setScreen, setOtherClient }) {
               sx={{ mt: 3, mb: 2 }}
             >
               Join as a Listener
+            </Button>
+            <Button onClick={() => checkClients()}>
+              check
             </Button>
 
             <Grid container>

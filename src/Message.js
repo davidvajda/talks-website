@@ -13,11 +13,13 @@ const styles = {
     backgroundColor: "rgba(0, 128, 255, 0.25)",
     alignSelf: "flex-start",
     borderRadius: "20px 20px 20px 0px",
+    marginLeft: 10,
   },
   right: {
     backgroundColor: "rgba(50, 150, 50, 0.25)",
     alignSelf: "flex-end",
     borderRadius: "20px 20px 0px 20px",
+    marginRight: 10,
   },
   messageText: {
     color: "rgba(50, 50, 50)",
