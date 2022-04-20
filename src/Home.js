@@ -20,7 +20,7 @@ function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="#">
-        Talks 
+        Talks
       </Link>
       {" " + new Date().getFullYear()}
     </Typography>
@@ -37,8 +37,8 @@ function Home({ sio, setScreen, setOtherClient }) {
 
   // ------ ONCLICK FUNCTIONS ------
   const checkClients = () => {
-    sio.emit("check_clients")
-  }
+    sio.emit("check_clients");
+  };
 
   const talkeeJoin = () => {
     if (name !== "") {
@@ -88,7 +88,11 @@ function Home({ sio, setScreen, setOtherClient }) {
 
   // ------ JSX ------
   return (
-    <Grid container component="main" sx={{ height: "100vh", justifyContent: "center", alignItems: "center" }}>
+    <Grid
+      container
+      component="main"
+      sx={{ height: "100vh", justifyContent: "center", alignItems: "center" }}
+    >
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <Box
           sx={{
@@ -144,10 +148,6 @@ function Home({ sio, setScreen, setOtherClient }) {
             >
               Join as a Listener
             </Button>
-            <Button onClick={() => checkClients()}>
-              check
-            </Button>
-
             <Grid container>
               <Grid item xs></Grid>
               <Grid item></Grid>
