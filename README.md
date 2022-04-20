@@ -11,4 +11,12 @@
   <img src="./screenshots/welcome_screen.png" alt="Homescreen">   
   <h3>Chat window</h3>
   <img src="./screenshots/chat.png" alt="Chat window"> 
+  
+  <h1>Communication</h1>
+  <p>
+    I'm using socket.IO for the communication between clients and the server. <a href="https://github.com/davidvajda/talks">Server repo</a>
+  </p>
+  <p>
+    After joining a chat (as talkee/listener) you are either connected with opposite role or enqueued in case there's no one in the queue's front.
+  </p>
 </div>
