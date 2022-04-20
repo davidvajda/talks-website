@@ -28,4 +28,13 @@
   <p>
     Messages contain only the text, type and time when they've been sent. Server emits the message to the other client. Type of messages can be (currently) either message or alert. Alerts are sent by server on disconnects and reconnects.
   </p>
+    <h1>Ideas for future commits</h1>
+  <ul>
+    <li>Using local storage to store chat messages (not losing messages on reconnect)</li>
+    <li>Registration form for Listeners</li>
+    <li>Rating system for Listeners - at the end of chat talkee will get to rate the experience</li>
+    <li>Animations when message is added</li>
+    <li>Other client is typing - animation</li>
+    <li>...</li>
+  </ul>
 </div>
