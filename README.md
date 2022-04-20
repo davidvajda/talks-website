@@ -16,7 +16,16 @@
   <p>
     I'm using socket.IO for the communication between clients and the server. <a href="https://github.com/davidvajda/talks">Server repo</a>
   </p>
+  <h3>Joining chat</h3>
   <p>
     After joining a chat (as talkee/listener) you are either connected with opposite role or enqueued in case there's no one in the queue's front.
+  </p>
+  <h3>Reconnecting</h3>
+  <p>
+    In case you lose an internet connection or accidentally press reload on a web browser your last socket ID is stored in browser's local storage. On loading a page this ID is send to the server, if the connection with the ID is still alive then you will be reconnected. The messages sent before connection loss won't be displayed since app is not using any database yet.
+  </p>
+    <h3>Messages and alerts</h3>
+  <p>
+    Messages contain only the text, type and time when they've been sent. Server emits the message to the other client. Type of messages can be (currently) either message or alert. Alerts are sent by server on disconnects and reconnects.
   </p>
 </div>
