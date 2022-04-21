@@ -22,7 +22,7 @@
   </p>
   <h3>Reconnecting</h3>
   <p>
-    In case you lose an internet connection or accidentally press reload on a web browser your last socket ID is stored in browser's local storage. On loading a page this ID is send to the server, if the connection with the ID is still alive then you will be reconnected. The messages sent before connection loss won't be displayed since app is not using any database yet.
+    For cases when you lose an internet connection or accidentally press reload on a web browser, your last socket ID is stored in browser's local storage. On loading a page this ID is send to the server, if the connection with the ID is still alive then you will be reconnected to the chat. The messages sent before connection loss won't be displayed since app is not using any database.
   </p>
     <h3>Messages and alerts</h3>
   <p>
