@@ -11,11 +11,11 @@ const styles = {
     width: "15%",
     alignSelf: "end",
     padding: 10,
-    marginLeft: 20, 
+    marginLeft: "5%", 
     marginTop: 5,
   },
   textInput: {
-    width: "77%",
+    width: "76%",
     alignSelf: "start",
   }
 };
