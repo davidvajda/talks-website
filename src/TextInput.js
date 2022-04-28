@@ -15,7 +15,7 @@ const styles = {
     marginTop: 5,
   },
   textInput: {
-    width: "80%",
+    width: "77%",
     alignSelf: "start",
   }
 };
