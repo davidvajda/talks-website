@@ -6,6 +6,7 @@
   <p>
     The app is published on heroku, you can find and try it out on this link -> <a href="http://my-talks.herokuapp.com/" target="blank">my-talks.herokuapp.com</a>.
   </p>
+  <p><a href="https://github.com/davidvajda/talks">Server repo</a></p>
   <h1>Screenshots</h1>
   <h3>Homescreen</h3>
   <img src="./screenshots/welcome_screen.png" alt="Homescreen">   
